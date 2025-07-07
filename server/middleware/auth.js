@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 const protect = async (req, res, next) => {
   let token;
@@ -15,16 +15,34 @@ const protect = async (req, res, next) => {
       // Get user from the token
       req.user = await User.findById(decoded.id).select('-password');
 
+      if (!req.user) {
+        return res.status(401).json({ message: 'User not found' });
+      }
+
       next();
     } catch (error) {
-      console.error(error);
-      res.status(401).json({ message: 'Not authorized, token failed' });
+      console.error('Token verification error:', error.message);
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
+  } else {
+    return res.status(401).json({ message: 'Not authorized, no token' });
   }
+};
 
-  if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
-  }
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Not authorized, no token' });
+    }
+    
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ 
+        message: `User role ${req.user.role} is not authorized to access this route` 
+      });
+    }
+    
+    next();
+  };
 };
 
 const admin = (req, res, next) => {
@@ -35,4 +53,4 @@ const admin = (req, res, next) => {
   }
 };
 
-module.exports = { protect, admin }; 
+export { protect, authorize, admin }; 

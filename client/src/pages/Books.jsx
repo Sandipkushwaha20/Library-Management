@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { booksAPI } from '../services/api';
 import { Search, Filter, BookOpen, Eye } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useDebounce from '../hooks/useDebounce';
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     search: '',
     category: '',
@@ -20,9 +22,18 @@ const Books = () => {
     totalBooks: 0
   });
 
+  // Debounce the search term
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    // Update filters when debounced search term changes
+    setFilters(prev => ({ ...prev, search: debouncedSearchTerm }));
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     fetchBooks();
@@ -60,10 +71,8 @@ const Books = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setFilters(prev => ({ ...prev, search: e.target.search.value }));
-    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   const handleFilterChange = (key, value) => {
@@ -93,7 +102,7 @@ const Books = () => {
 
       {/* Search and Filters */}
       <div className="card">
-        <form onSubmit={handleSearch} className="space-y-4">
+        <div className="space-y-4">
           {/* Search Bar */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -101,10 +110,10 @@ const Books = () => {
             </div>
             <input
               type="text"
-              name="search"
               placeholder="Search by title, author, or ISBN..."
+              value={searchTerm}
+              onChange={handleSearchChange}
               className="input-field pl-10"
-              defaultValue={filters.search}
             />
           </div>
 
@@ -119,8 +128,8 @@ const Books = () => {
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category._id} value={category._id}>
+                    {category.name}
                   </option>
                 ))}
               </select>
@@ -152,7 +161,7 @@ const Books = () => {
               </select>
             </div>
           </div>
-        </form>
+        </div>
       </div>
 
       {/* Books Grid */}
@@ -180,7 +189,7 @@ const Books = () => {
                   </p>
                   
                   <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>{book.category}</span>
+                    <span>{book.category?.name || 'Unknown'}</span>
                     <span>{book.publicationYear}</span>
                   </div>
                   

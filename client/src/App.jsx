@@ -12,7 +12,13 @@ import Books from './pages/Books';
 import BookDetail from './pages/BookDetail';
 import Borrows from './pages/Borrows';
 import AdminPanel from './pages/AdminPanel';
+import Users from './pages/Users';
+import UserEdit from './pages/UserEdit';
 import LoadingSpinner from './components/LoadingSpinner';
+import AddBook from './pages/AddBook';
+import ManageBooks from './pages/ManageBooks';
+import ManageCategories from './pages/ManageCategories';
+import UpdateBookCovers from './pages/UpdateBookCovers';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -66,6 +72,54 @@ function App() {
                 element={
                   <ProtectedRoute adminOnly>
                     <AdminPanel />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/users" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <Users />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/users/:id" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <UserEdit />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/books/add" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <AddBook />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/books" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <ManageBooks />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/categories" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <ManageCategories />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/books/update-covers" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <UpdateBookCovers />
                   </ProtectedRoute>
                 } 
               />

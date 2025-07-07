@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { borrowsAPI, booksAPI } from '../services/api';
+import { borrowsAPI } from '../services/api';
 import { 
   BookOpen, 
   Users, 
@@ -10,9 +10,11 @@ import {
   DollarSign,
   Plus,
   Settings,
-  BarChart3
+  BarChart3,
+  Image
 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
+import toast from 'react-hot-toast';
 
 const AdminPanel = () => {
   const [stats, setStats] = useState({
@@ -55,6 +57,8 @@ const AdminPanel = () => {
       toast.error(message);
     }
   };
+
+
 
   if (loading) {
     return <LoadingSpinner />;
@@ -179,6 +183,13 @@ const AdminPanel = () => {
             >
               <span className="font-medium">Manage Categories</span>
               <BarChart3 className="h-4 w-4 text-gray-400" />
+            </Link>
+            <Link
+              to="/admin/books/update-covers"
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <span className="font-medium">Update Book Covers</span>
+              <Image className="h-4 w-4 text-gray-400" />
             </Link>
           </div>
         </div>

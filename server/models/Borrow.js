@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const borrowSchema = new mongoose.Schema({
   user: {
@@ -80,4 +80,4 @@ borrowSchema.methods.checkOverdue = function() {
   return this.status === 'overdue';
 };
 
-module.exports = mongoose.model('Borrow', borrowSchema); 
+export default mongoose.model('Borrow', borrowSchema); 

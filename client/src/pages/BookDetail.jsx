@@ -188,7 +188,7 @@ const BookDetail = () => {
                 <BookOpen className="h-5 w-5 text-gray-400" />
                 <div>
                   <p className="text-sm text-gray-600">Category</p>
-                  <p className="font-medium text-gray-900">{book.category}</p>
+                  <p className="font-medium text-gray-900">{book.category?.name || 'Unknown'}</p>
                 </div>
               </div>
               

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
   title: {
@@ -20,26 +20,9 @@ const bookSchema = new mongoose.Schema({
     match: [/^(?:\d{10}|\d{13})$/, 'Please add a valid 10 or 13 digit ISBN']
   },
   category: {
-    type: String,
-    required: [true, 'Please add a category'],
-    enum: [
-      'Fiction',
-      'Non-Fiction',
-      'Science Fiction',
-      'Mystery',
-      'Romance',
-      'Biography',
-      'History',
-      'Science',
-      'Technology',
-      'Philosophy',
-      'Religion',
-      'Self-Help',
-      'Business',
-      'Education',
-      'Children',
-      'Other'
-    ]
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: [true, 'Please add a category']
   },
   description: {
     type: String,
@@ -71,7 +54,7 @@ const bookSchema = new mongoose.Schema({
   },
   coverImage: {
     type: String,
-    default: 'https://via.placeholder.com/150x200?text=No+Cover'
+    default: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop&crop=center'
   },
   isActive: {
     type: Boolean,
@@ -101,4 +84,4 @@ bookSchema.virtual('isAvailable').get(function() {
 // Ensure virtuals are serialized
 bookSchema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('Book', bookSchema); 
+export default mongoose.model('Book', bookSchema); 

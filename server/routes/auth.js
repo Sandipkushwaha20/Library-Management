@@ -1,8 +1,8 @@
-const express = require('express');
-const { body, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { protect } = require('../middleware/auth');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -168,4 +168,36 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
-module.exports = router; 
+// @desc    Refresh token
+// @route   POST /api/auth/refresh
+// @access  Private
+router.post('/refresh', protect, async (req, res) => {
+  try {
+    // Create new token
+    const token = jwt.sign(
+      { id: req.user.id },
+      process.env.JWT_SECRET || 'fallback_secret',
+      { expiresIn: '30d' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+        role: req.user.role,
+        membershipNumber: req.user.membershipNumber
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+export default router; 

@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -31,7 +32,7 @@ const userSchema = new mongoose.Schema({
   membershipNumber: {
     type: String,
     unique: true,
-    required: true
+    required: false
   },
   phone: {
     type: String,
@@ -65,7 +66,7 @@ userSchema.pre('save', async function(next) {
 
 // Generate membership number
 userSchema.pre('save', function(next) {
-  if (this.isNew && !this.membershipNumber) {
+  if (this.isNew) {
     this.membershipNumber = 'MEM' + Date.now().toString().slice(-8);
   }
   next();
@@ -73,7 +74,6 @@ userSchema.pre('save', function(next) {
 
 // Sign JWT and return
 userSchema.methods.getSignedJwtToken = function() {
-  const jwt = require('jsonwebtoken');
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET || 'fallback_secret', {
     expiresIn: '30d'
   });
@@ -84,4 +84,4 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema); 
+export default mongoose.model('User', userSchema); 
