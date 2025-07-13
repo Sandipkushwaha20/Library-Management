@@ -61,7 +61,7 @@ borrowSchema.methods.calculateFine = function() {
     const daysOverdue = Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24));
     
     if (daysOverdue > 0) {
-      this.fine = daysOverdue * 1; // $1 per day
+      this.fine = daysOverdue * 1; // ₹1 per day
     }
   }
   return this.fine;

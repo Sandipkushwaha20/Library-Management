@@ -60,7 +60,7 @@ router.get('/overdue', protect, admin, async (req, res) => {
       dueDate: { $lt: new Date() }
     })
       .populate('user', 'name email membershipNumber')
-      .populate('book', 'title author isbn')
+      .populate('book', 'title author isbn coverImage')
       .sort({ dueDate: 1 });
 
     // Calculate fines for overdue books
@@ -235,7 +235,7 @@ router.get('/:id', protect, async (req, res) => {
 router.put('/:id/return', protect, admin, async (req, res) => {
   try {
     const borrow = await Borrow.findById(req.params.id)
-      .populate('book');
+      .populate('book', 'title author isbn coverImage');
 
     if (!borrow) {
       return res.status(404).json({
