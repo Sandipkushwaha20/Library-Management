@@ -204,6 +204,8 @@ Library Management/
 1. Build the project: `npm run build`
 2. Deploy the `dist` folder to your preferred platform
 
+## ✍️ Author: Shruti Singh
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -211,4 +213,6 @@ Library Management/
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
+
+
 
