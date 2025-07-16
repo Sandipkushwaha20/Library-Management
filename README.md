@@ -101,7 +101,7 @@ Library Management/
    
    Create a `.env` file in the server directory:
    ```env
-   PORT=5000
+   PORT=8000
    MONGODB_URI=mongodb://localhost:27017/library_management
    JWT_SECRET=your_super_secret_jwt_key_change_in_production
    NODE_ENV=development
