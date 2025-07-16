@@ -212,17 +212,3 @@ Library Management/
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🙏 Acknowledgments
-
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Lucide React](https://lucide.dev/) for the beautiful icons
-- [React Hook Form](https://react-hook-form.com/) for form management
-- [Vite](https://vitejs.dev/) for the fast build tool
-
-## 📞 Support
-
-For support and questions, please open an issue in the GitHub repository. 
