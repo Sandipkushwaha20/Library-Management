@@ -32,8 +32,7 @@ const Users = () => {
     try {
       const params = {
         search: debouncedSearchTerm,
-        role: filterRole !== 'all' ? filterRole : '',
-        status: filterRole !== 'all' ? filterRole : ''
+        role: filterRole !== 'all' ? filterRole : ''
       };
       
       const response = await usersAPI.getAll(params);

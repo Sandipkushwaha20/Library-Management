@@ -5,7 +5,7 @@ import {
   CheckCircle, 
   AlertTriangle, 
   Calendar,
-  DollarSign,
+  IndianRupee,
   Filter
 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -202,8 +202,8 @@ const Borrows = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <div className="flex items-center">
-                              <DollarSign className="h-4 w-4 text-gray-400 mr-1" />
-                              {borrow.fine || 0}
+                              <IndianRupee className="h-4 w-4 text-gray-400 mr-1" />
+                              ₹{borrow.fine || 0}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm">

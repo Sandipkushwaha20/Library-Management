@@ -177,6 +177,9 @@ const Books = () => {
                     src={book.coverImage}
                     alt={book.title}
                     className="w-full h-full object-cover rounded-lg"
+                    onError={(e) => { 
+                      e.target.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop&crop=center'; 
+                    }}
                   />
                 </div>
                 

@@ -16,9 +16,12 @@ import Users from './pages/Users';
 import UserEdit from './pages/UserEdit';
 import LoadingSpinner from './components/LoadingSpinner';
 import AddBook from './pages/AddBook';
+import EditBook from './pages/EditBook';
 import ManageBooks from './pages/ManageBooks';
 import ManageCategories from './pages/ManageCategories';
 import UpdateBookCovers from './pages/UpdateBookCovers';
+import OverdueBooks from './pages/OverdueBooks';
+import ManageRoles from './pages/ManageRoles';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -100,6 +103,14 @@ function App() {
                 } 
               />
               <Route 
+                path="/admin/books/edit/:id" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <EditBook />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/admin/books" 
                 element={
                   <ProtectedRoute adminOnly>
@@ -120,6 +131,22 @@ function App() {
                 element={
                   <ProtectedRoute adminOnly>
                     <UpdateBookCovers />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/overdue" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <OverdueBooks />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/roles" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <ManageRoles />
                   </ProtectedRoute>
                 } 
               />

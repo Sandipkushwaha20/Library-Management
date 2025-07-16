@@ -9,7 +9,9 @@ import {
   MapPin, 
   Shield,
   CheckCircle,
-  XCircle
+  XCircle,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { usersAPI } from '../services/api';
@@ -31,9 +33,13 @@ const UserEdit = () => {
       state: '',
       zipCode: ''
     },
-    isActive: true
+    isActive: true,
+    password: '',
+    confirmPassword: '' // Add confirmPassword to form state
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (id === 'new') {
@@ -117,6 +123,18 @@ const UserEdit = () => {
       newErrors.phone = 'Please enter a valid phone number';
     }
 
+    // Password validation for new user
+    if (id === 'new') {
+      if (!formData.password || formData.password.length < 6) {
+        newErrors.password = 'Password must be at least 6 characters';
+      }
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -131,9 +149,8 @@ const UserEdit = () => {
     setSaving(true);
     try {
       if (id === 'new') {
-        // Add password field for new users
-        const password = Math.random().toString(36).slice(-8); // Generate random password
-        await usersAPI.create({ ...formData, password });
+        const { confirmPassword, ...userData } = formData; // Exclude confirmPassword
+        await usersAPI.create(userData);
       } else {
         await usersAPI.update(id, formData);
       }
@@ -259,6 +276,71 @@ const UserEdit = () => {
                   <option value="admin">Admin</option>
                 </select>
               </div>
+              {/* Password field for new user */}
+              {id === 'new' && (
+                <>
+                  <div>
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                      Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        className={`w-full px-3 py-2 pr-10 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                          errors.password ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="Enter password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+                  </div>
+                  <div>
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                      Confirm Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        className={`w-full px-3 py-2 pr-10 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                          errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="Re-enter password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

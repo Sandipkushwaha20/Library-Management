@@ -178,9 +178,16 @@ export default function ManageBooks() {
               <tr key={book._id} className="hover:bg-gray-50">
                 <td className="px-4 py-2 whitespace-nowrap">
                   <div className="flex items-center space-x-2">
-                    {book.coverImage && (
-                      <img src={book.coverImage} alt={book.title} className="h-10 w-8 object-cover rounded" />
-                    )}
+                                    {book.coverImage && (
+                  <img 
+                    src={book.coverImage} 
+                    alt={book.title} 
+                    className="h-10 w-8 object-cover rounded"
+                    onError={(e) => { 
+                      e.target.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop&crop=center'; 
+                    }}
+                  />
+                )}
                     <span className="font-medium text-gray-900">{book.title}</span>
                   </div>
                 </td>

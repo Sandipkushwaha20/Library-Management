@@ -7,7 +7,7 @@ import {
   Clock, 
   AlertTriangle, 
   CheckCircle, 
-  DollarSign,
+  IndianRupee,
   Plus,
   Settings,
   BarChart3,
@@ -145,11 +145,11 @@ const AdminPanel = () => {
         <div className="card">
           <div className="flex items-center">
             <div className="bg-yellow-100 rounded-lg p-3">
-              <DollarSign className="h-6 w-6 text-yellow-600" />
+              <IndianRupee className="h-6 w-6 text-yellow-600" />
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Fines</p>
-              <p className="text-2xl font-bold text-gray-900">${stats.totalFines}</p>
+              <p className="text-2xl font-bold text-gray-900">₹{stats.totalFines}</p>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@ const AdminPanel = () => {
               <Users className="h-4 w-4 text-gray-400" />
             </Link>
             <Link
-              to="/admin/users/add"
+              to="/admin/users/new"
               className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <span className="font-medium">Add New User</span>
@@ -242,7 +242,7 @@ const AdminPanel = () => {
               className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <span className="font-medium">Fine Reports</span>
-              <DollarSign className="h-4 w-4 text-gray-400" />
+              <IndianRupee className="h-4 w-4 text-gray-400" />
             </Link>
             <Link
               to="/admin/reports/popular"
@@ -307,6 +307,9 @@ const AdminPanel = () => {
                             className="h-10 w-8 object-cover rounded"
                             src={borrow.book?.coverImage}
                             alt={borrow.book?.title}
+                            onError={(e) => { 
+                              e.target.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop&crop=center'; 
+                            }}
                           />
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
@@ -331,7 +334,7 @@ const AdminPanel = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${borrow.fine || 0}
+                        ₹{borrow.fine || 0}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button

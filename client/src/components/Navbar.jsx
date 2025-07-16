@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { BookOpen, LogOut, User, Settings, Menu, X } from 'lucide-react';
+import { BookOpen, LogOut, User, Settings, Menu, X, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 
 const Navbar = () => {
@@ -52,7 +52,7 @@ const Navbar = () => {
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full animate-pulse"></div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              LibraryHub
+              Booqly
             </span>
           </Link>
 
@@ -69,9 +69,15 @@ const Navbar = () => {
                 My Borrows
               </NavLink>
               {isAdmin && (
-                <NavLink to="/admin" className="bg-gradient-to-r from-orange-400 to-red-500 text-white hover:from-orange-500 hover:to-red-600">
-                  Admin Panel
-                </NavLink>
+                <>
+                  <NavLink to="/admin" className="bg-gradient-to-r from-orange-400 to-red-500 text-white hover:from-orange-500 hover:to-red-600">
+                    Admin Panel
+                  </NavLink>
+                  {/* <NavLink to="/admin/overdue" className="bg-gradient-to-r from-red-400 to-pink-500 text-white hover:from-red-500 hover:to-pink-600">
+                    <AlertTriangle className="h-4 w-4 mr-1" />
+                    Overdue
+                  </NavLink> */}
+                </>
               )}
             </div>
           )}
@@ -140,9 +146,15 @@ const Navbar = () => {
                   My Borrows
                 </NavLink>
                 {isAdmin && (
-                  <NavLink to="/admin" className="block w-full text-center bg-gradient-to-r from-orange-400 to-red-500 text-white hover:from-orange-500 hover:to-red-600">
-                    Admin Panel
-                  </NavLink>
+                  <>
+                    <NavLink to="/admin" className="block w-full text-center bg-gradient-to-r from-orange-400 to-red-500 text-white hover:from-orange-500 hover:to-red-600">
+                      Admin Panel
+                    </NavLink>
+                    {/* <NavLink to="/admin/overdue" className="block w-full text-center bg-gradient-to-r from-red-400 to-pink-500 text-white hover:from-red-500 hover:to-pink-600">
+                      <AlertTriangle className="h-4 w-4 mr-1" />
+                      Overdue Books
+                    </NavLink> */}
+                  </>
                 )}
               </div>
 

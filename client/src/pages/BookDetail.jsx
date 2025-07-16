@@ -128,6 +128,9 @@ const BookDetail = () => {
                 src={book.coverImage}
                 alt={book.title}
                 className="w-full h-full object-cover rounded-lg"
+                onError={(e) => { 
+                  e.target.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop&crop=center'; 
+                }}
               />
             </div>
             
@@ -290,7 +293,7 @@ const BookDetail = () => {
             </h2>
             <div className="space-y-2 text-sm text-gray-700">
               <p>• Books can be borrowed for up to 14 days</p>
-              <p>• Late returns incur a fine of $1 per day</p>
+                              <p>• Late returns incur a fine of ₹1 per day</p>
               <p>• You can borrow up to 5 books at a time</p>
               <p>• Please return books in good condition</p>
             </div>
